@@ -1,0 +1,9 @@
+<div>
+  <h1 class="text-center">Параметры</h1>
+  <div *ngFor="let inputParam of inputParams" >
+    <label [for]="inputParam.name">{{ inputParam.placeholder}}</label>
+    <app-my-input [(value)]="inputParam.value" [name]="inputParam.name" [placeholder]="inputParam.placeholder" ></app-my-input>
+  </div>
+  <app-my-button (click)="solve()">Посчитать</app-my-button>
+  {{count}}
+</div>
