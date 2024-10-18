@@ -8,7 +8,7 @@
       class="demo-chart"
     ></div>
     <label for="timeStep">Время</label>
-    <app-my-input [(value)]="time" name="timeSpeed"></app-my-input>
+    <app-my-input [value]="time.toFixed(2)" (valueChange)="time=$event" name="timeSpeed"></app-my-input>
     <label for="timeSpeed">Скорость анимации</label>
     <app-my-input [(value)]="timeSpeed" name="timeSpeed"></app-my-input>
     <div>

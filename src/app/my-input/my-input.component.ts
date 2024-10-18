@@ -11,7 +11,7 @@ import {tap} from "rxjs"
   // styleUrl: './my-input.component.scss'
 })
 export class MyInputComponent {
-  @Input() value: number = 0;
+  @Input() value: number| string = 0;
   @Output() valueChange = new EventEmitter<number>();
   @Input() placeholder:string = "";
   @Input() name:string = "";
