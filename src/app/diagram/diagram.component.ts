@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 import { SolveEquationService } from '../servises/solve-equation.service';
 import { EChartsOption } from 'echarts';
@@ -18,17 +18,29 @@ import { EquationResult } from '../types';
   ],
   templateUrl: './diagram.component.html',
   styleUrl: './diagram.component.scss',
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideEcharts()],
 })
-export class DiagramComponent implements OnInit{
-  constructor(private SolveEquationService: SolveEquationService) {}
+export class DiagramComponent implements OnInit {
+  constructor(private solveEquationService: SolveEquationService, private cdr: ChangeDetectorRef) {}
+
+  resultSolving: EquationResult = {
+    data:[],
+    tau:0.1,
+    a:0.1,
+    time:0,
+    h:0.1
+  };
   ngOnInit(): void {
+    this.solveEquationService.resultSolving.subscribe(result=>{
+      this.resultSolving = result!;
+      this.cdr.detectChanges();
+    })
   }
   timeSpeed = 0.2;
   _time = 0;
   get isInit() {
-    return !!this.SolveEquationService.resultSolving;
+    return this.resultSolving.data.length > 0;
   }
   get time() {
     return this._time;
@@ -39,23 +51,14 @@ export class DiagramComponent implements OnInit{
     const newValue = value < 0 ? Tend : value % Tend;
 
     if (newValue !== this._time) {
-        this._time = newValue;
+      this._time = newValue;
     }
-}
+  }
   get timeStep() {
     return Math.ceil(this.time / this.resultSolving.tau);
   }
   get equationParams() {
-    return this.SolveEquationService.equationParams;
-  }
-  get resultSolving():EquationResult {
-    return this.SolveEquationService.resultSolving || {
-      data:[],
-      tau:0.1,
-      a:0.1,
-      time:0,
-      h:0.1
-    };
+    return this.solveEquationService.equationParams;
   }
   nextStep() {
     this.time += this.timeSpeed;
@@ -87,7 +90,7 @@ export class DiagramComponent implements OnInit{
     if (!(this.isInit && N)) {
       return {};
     }
-    // console.log(this.equationParams.L)
+    console.log(this.equationParams.L)
     const data = this.resultSolving.data[this.timeStep];
     const xAxis = Array.from(new Array(N), (e, i) => this.resultSolving.h * i);
     return {
