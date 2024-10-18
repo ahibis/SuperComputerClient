@@ -1,6 +1,6 @@
 <div class="my-5">
-  <h1 class="text-center">График</h1>
   <div *ngIf="isInit">
+    <h1 class="text-center">График</h1>
     <div echarts [options]="chartOption" [merge]="merge" class="demo-chart"></div>
     <label for="timeStep">Время</label>
     <app-my-input [(value)]="time" name="timeSpeed"></app-my-input>
@@ -9,5 +9,4 @@
     <app-my-button (click)="prevStep()">предыдущий шаг</app-my-button>
     <app-my-button (click)="nextStep()">следующий шаг</app-my-button>
   </div>
-
 </div>

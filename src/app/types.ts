@@ -8,4 +8,10 @@ export interface EquationParams{
   Tend?:number
 }
 
-export type EquationResult = Number[][]
+export type EquationResult = {
+  data:number[][],
+  a:number,
+  h:number,
+  tau:number,
+  time:number
+}

@@ -6,7 +6,7 @@ import {tap} from 'rxjs'
   providedIn: 'root'
 })
 export class SolveEquationService {
-  resultSolving:EquationResult = [];
+  resultSolving:EquationResult|undefined;
   equationParams:EquationParams = {}
 
   constructor(private http:HttpClient) {}

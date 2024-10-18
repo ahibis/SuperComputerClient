@@ -5,6 +5,7 @@ import { SolveEquationService } from '../servises/solve-equation.service';
 import { EChartsOption } from 'echarts';
 import { MyButtonComponent } from '../my-button/my-button.component';
 import { MyInputComponent } from '../my-input/my-input.component';
+import { EquationResult } from '../types';
 
 @Component({
   selector: 'app-diagram',
@@ -27,21 +28,9 @@ export class DiagramComponent implements OnInit{
   timeSpeed = 0.2;
   _time = 0;
   get isInit() {
-    return this.resultSolving.length > 0;
-  }
-  get h() {
-    const { L, N } = this.equationParams;
-    if (!(L && N)) return 0;
-    return L / (N - 1);
-  }
-  get tau() {
-    const { l, p, c } = this.equationParams;
-    if (!(l && p && c)) return 0;
-    const a = l / (p * c);
-    return this.h ** 2 / (4 * a);
+    return !!this.SolveEquationService.resultSolving;
   }
   get time() {
-    // console.log("get time")
     return this._time;
   }
   set time(value: number) {
@@ -54,13 +43,19 @@ export class DiagramComponent implements OnInit{
     }
 }
   get timeStep() {
-    return Math.ceil(this.time / this.tau);
+    return Math.ceil(this.time / this.resultSolving.tau);
   }
   get equationParams() {
     return this.SolveEquationService.equationParams;
   }
-  get resultSolving() {
-    return this.SolveEquationService.resultSolving;
+  get resultSolving():EquationResult {
+    return this.SolveEquationService.resultSolving || {
+      data:[],
+      tau:0.1,
+      a:0.1,
+      time:0,
+      h:0.1
+    };
   }
   nextStep() {
     this.time += this.timeSpeed;
@@ -92,9 +87,9 @@ export class DiagramComponent implements OnInit{
     if (!(this.isInit && N)) {
       return {};
     }
-    // console.log(this.equationParams.L, this.h)
-    const data = this.resultSolving[this.timeStep];
-    const xAxis = Array.from(new Array(N), (e, i) => this.h * i);
+    // console.log(this.equationParams.L)
+    const data = this.resultSolving.data[this.timeStep];
+    const xAxis = Array.from(new Array(N), (e, i) => this.resultSolving.h * i);
     return {
       xAxis: {
         data: xAxis,
