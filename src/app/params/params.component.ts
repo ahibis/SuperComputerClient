@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule, MyButtonComponent, MyInputComponent],
   templateUrl: './params.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
   // styleUrl: './params.component.scss',
 })
 export class ParamsComponent {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {tap} from "rxjs"
 
@@ -7,6 +7,7 @@ import {tap} from "rxjs"
   standalone: true,
   imports: [FormsModule],
   templateUrl: './my-input.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   // styleUrl: './my-input.component.scss'
 })
 export class MyInputComponent {
