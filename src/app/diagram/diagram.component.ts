@@ -6,6 +6,7 @@ import { EChartsOption } from 'echarts';
 import { MyButtonComponent } from '../my-button/my-button.component';
 import { MyInputComponent } from '../my-input/my-input.component';
 import { EquationResult } from '../types';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-diagram',
@@ -31,6 +32,7 @@ export class DiagramComponent implements OnInit {
     time:0,
     h:0.1
   };
+  animationSubscription:Subscription |undefined;
   ngOnInit(): void {
     this.solveEquationService.resultSolving.subscribe(result=>{
       this.resultSolving = result!;
@@ -48,6 +50,7 @@ export class DiagramComponent implements OnInit {
   set time(value: number) {
     const Tend = this.equationParams.Tend;
     if (!Tend) return;
+    if(!value) this._time = 0;
     const newValue = value < 0 ? Tend : value % Tend;
 
     if (newValue !== this._time) {
@@ -61,16 +64,26 @@ export class DiagramComponent implements OnInit {
     return this.solveEquationService.equationParams;
   }
   nextStep() {
-    this.time += this.timeSpeed;
+    this.time += this.timeSpeed ?? 0;
   }
   prevStep() {
-    this.time -= this.timeSpeed;
+    this.time -= this.timeSpeed ?? 0;
   }
-
+  animationToggle(){
+    if(this.animationSubscription){
+      this.animationSubscription.unsubscribe()
+      this.animationSubscription = undefined;
+      return;
+    }
+    this.animationSubscription = interval(100).subscribe(()=>{
+      this.time += (this.timeSpeed ?? 0);
+      this.cdr.detectChanges();
+    })
+  }
   chartOption: EChartsOption = {
     xAxis: {
       type: 'category',
-      boundaryGap: false,
+      boundaryGap: true,
       data: [],
     },
     yAxis: {
@@ -90,7 +103,7 @@ export class DiagramComponent implements OnInit {
     if (!(this.isInit && N)) {
       return {};
     }
-    console.log(this.equationParams.L)
+    // console.log(this.equationParams.L)
     const data = this.resultSolving.data[this.timeStep];
     const xAxis = Array.from(new Array(N), (e, i) => this.resultSolving.h * i);
     return {

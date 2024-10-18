@@ -17,37 +17,37 @@ export class ParamsComponent {
   inputParams = [
     {
       name: 'N',
-      placeholder: 'Количество точек',
+      placeholder: 'Количество точек, N',
       value: 100,
     },
     {
       name: 'Tend',
-      placeholder: 'Время расчета',
+      placeholder: 'Время расчета, Tend',
       value: 60,
     },
     {
       name: 'L',
-      placeholder: 'Длина стержня',
+      placeholder: 'Длина стержня, L',
       value: 0.1,
     },
     {
       name: 'T',
-      placeholder: 'Температура на границе',
+      placeholder: 'Температура на границе, T',
       value: 300,
     },
     {
       name: 'p',
-      placeholder: 'Плотность тела',
+      placeholder: 'Плотность тела, 𝜌',
       value: 7800,
     },
     {
       name: 'c',
-      placeholder: 'Теплоемкость',
+      placeholder: 'Удельная теплоемкость, c',
       value: 460,
     },
     {
       name: 'l',
-      placeholder: 'Распространение тепла',
+      placeholder: 'Теплопроводность материала, λ',
       value: 46,
     },
   ];

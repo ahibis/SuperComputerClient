@@ -9,5 +9,4 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
 })
 export class MyButtonComponent {
   @Output() click = new EventEmitter();
-
 }

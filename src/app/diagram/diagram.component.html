@@ -9,17 +9,18 @@
     ></div>
     <label for="timeStep">Время</label>
     <app-my-input [(value)]="time" name="timeSpeed"></app-my-input>
-    <label for="timeSpeed">Скорость изменения времени</label>
+    <label for="timeSpeed">Скорость анимации</label>
     <app-my-input [(value)]="timeSpeed" name="timeSpeed"></app-my-input>
     <div>
-      <app-my-button (click)="prevStep()">предыдущий шаг</app-my-button>
-      <app-my-button (click)="nextStep()">следующий шаг</app-my-button>
+      <app-my-button (click)="animationToggle()">{{this.animationSubscription?"Выключить":"Включить"}} анимацию</app-my-button>
+      <app-my-button (click)="prevStep()">Предыдущий шаг</app-my-button>
+      <app-my-button (click)="nextStep()">Следующий шаг</app-my-button>
     </div>
-    <div>Время выполнения: {{ resultSolving.time }}</div>
+    <div>Время расчета уравнения теплопроводности: {{ resultSolving.time }}</div>
     <div>
-      Параметры: h={{ resultSolving.h | number }} tau={{
-        resultSolving.tau | number
-      }}
+      Параметры: h={{ resultSolving.h | number: "0.0-7"}} tau={{
+        resultSolving.tau | number: "0.0-7"
+      }} a={{resultSolving.a | number : "0.0-7"}}
     </div>
   </div>
 </div>
